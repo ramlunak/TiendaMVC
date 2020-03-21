@@ -21,8 +21,10 @@ namespace TiendaMVC.Controllers
             if (!IsLogin()) return RedirectToAction("Index", "Login");
 
             var utc_from = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Parse(_Global.FromDate), "US Eastern Standard Time", "UTC").ToString("yyyy-MM-dd HH:mm:ss");
+            //var utc_from = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Parse("24/02/2020"), "US Eastern Standard Time", "UTC").ToString("yyyy-MM-dd HH:mm:ss");
             
             var utc_to = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Parse(_Global.ToDate), "US Eastern Standard Time", "UTC").ToString("yyyy-MM-dd HH:mm:ss");
+            //var utc_to = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Parse("28/02/2020"), "US Eastern Standard Time", "UTC").ToString("yyyy-MM-dd HH:mm:ss");
             var facturacion = new Facturacion();
 
             Session["HistorialFromDate"] = _Global.FromDate;
@@ -100,38 +102,125 @@ namespace TiendaMVC.Controllers
 
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-
-        public ActionResult Historial(string datepickerInicio, string datepickerFin, string txtMonto, string txtNumero)
+        public async Task<ActionResult> Historial(string datepickerInicio, string datepickerFin, string txtMonto, string txtNumero)
         {
             if (!IsLogin()) return RedirectToAction("Index", "Login");
 
-            if (datepickerInicio == "" && datepickerFin == "" && txtMonto == "" && txtNumero == "") return View((List<RecargaTienda>)Session["ListaRecargasHistorial"]);
-            var filtro = (List<RecargaTienda>)Session["ListaRecargasHistorial"];
-            if (Session["ListaRecargasHistorial"] == null)
-                return View(filtro);
             CultureInfo MyCultureInfo = new CultureInfo("en-US");
-            if (datepickerInicio != "")
-                filtro = filtro.Where(x => DateTime.Parse(x.Fecha.Substring(0, 10), MyCultureInfo) >= DateTime.Parse(datepickerInicio, MyCultureInfo)).ToList();
-            if (datepickerFin != "")
-                filtro = filtro.Where(x => DateTime.Parse(x.Fecha.Substring(0, 10), MyCultureInfo) <= DateTime.Parse(datepickerFin, MyCultureInfo)).ToList();
-            if (txtMonto != "")
-                filtro = filtro.Where(x => x.Monto == Convert.ToInt32(txtMonto)).ToList();
-            if (txtNumero != "")
-                filtro = filtro.Where(x => x.Numero.Contains(txtNumero)).ToList();
+            var dataInicio = DateTime.Parse(datepickerInicio, MyCultureInfo).ToShortDateString();
+            var dataFin = DateTime.Parse(datepickerFin, MyCultureInfo).ToShortDateString();
+            var utc_from = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Parse(dataInicio), "US Eastern Standard Time", "UTC").ToString("yyyy-MM-dd HH:mm:ss");          
+            var utc_to = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Parse(dataFin), "US Eastern Standard Time", "UTC").ToString("yyyy-MM-dd HH:mm:ss");
+            var facturacion = new Facturacion();
 
-            Session["Registros"] = filtro.Count;
-            Session["Total"] = decimal.Round(Convert.ToDecimal(filtro.Sum(x => x.CostoXdr)), 2);
+            Session["HistorialFromDate"] = utc_from;
+            Session["HistorialToDate"] = utc_to;
 
-            Session["datepickerInicio"] = datepickerInicio;
-            Session["datepickerFin"] = datepickerFin;
-            Session["txtMonto"] = txtMonto;
-            Session["txtNumero"] = txtNumero;
+            GetRetailCustomerXDRListResponse XDRListResponse = new GetRetailCustomerXDRListResponse();
+            var Xdrs = new List<CustomerXDRInfo>();
+
+            if ((TipoTienda)Session["TipoTienda"] == TipoTienda.Padre)
+            {
+                try
+                {
+                    XDRListResponse = await ((customer_info)Session["CurrentCustomer"]).GetCustomerXDR(new GetRetailCustomerXDRListRequest { from_date = utc_from, to_date = utc_to });
+                    Xdrs = XDRListResponse.xdr_list.ToList();
+                }
+                catch (Exception ex)
+                {
+                    ;
+                }
+            }
+            else
+            {
+                var account = ((customer_info)Session["CurrentAccont"]);
+
+                XDRListResponse = await account.GetCustomerXDR(new GetRetailCustomerXDRListRequest { from_date = utc_from, to_date = utc_to });
+                Xdrs = XDRListResponse.xdr_list.ToList();
+            }
+
+            var RecargaTiendas = new List<RecargaTienda>();
+
+            var listaCuentas = new List<customer_info>();
 
 
-            return View(filtro);
+            foreach (var item in Xdrs)
+            {
+                if (item.XdrIsMovil() || item.XdrIsNauta())
+                {
+                    var nombreCuenta = "";
+                    if (item.XdrIdAsociado() != 0)
+                    {
+                        if (listaCuentas.Where(x => x.i_customer.ToString() == item.XdrIdAsociado().ToString()).Any())
+                        {
+                            nombreCuenta = listaCuentas.Where(x => x.i_customer.ToString() == item.XdrIdAsociado().ToString()).First().firstname;
+                        }
+                        else
+                        {
+                            var accountInfo = await ((customer_info)Session["CurrentCustomer"]).GetAccountById(item.XdrIdAsociado().ToString());
+                            if (accountInfo != null)
+                            {
+                                nombreCuenta = accountInfo.fullname;
+                                listaCuentas.Add(accountInfo);
+                            }
+                        }
+                    }
+
+
+                    var recarga = new RecargaTienda();
+                    recarga.Numero = item.XdrGetNumero();
+                    recarga.Nombre = item.XdrGetNombre();
+                    recarga.Monto = item.XdrGetMonto();
+                    recarga.CostoXdr = item.XdrGetCosto();
+                    recarga.Fecha = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(item.bill_time, "UTC", "US Eastern Standard Time").ToString("yyyy-MM-dd HH:mm:ss");
+                    recarga.Asociado = nombreCuenta;
+                    RecargaTiendas.Add(recarga);
+                }
+            }
+
+            Session["ListaRecargasHistorial"] = RecargaTiendas;
+
+            Session["Registros"] = ((List<RecargaTienda>)Session["ListaRecargasHistorial"]).Count;
+            var total = ((List<RecargaTienda>)Session["ListaRecargasHistorial"]).Sum(x => x.CostoXdr);
+            Session["Total"] = decimal.Round(Convert.ToDecimal(total), 2);
+
+            return View((List<RecargaTienda>)Session["ListaRecargasHistorial"]);
+
         }
+             
+
+        //public ActionResult Historial(string datepickerInicio, string datepickerFin, string txtMonto, string txtNumero)
+        //{
+        //    if (!IsLogin()) return RedirectToAction("Index", "Login");
+
+        //    if (datepickerInicio == "" && datepickerFin == "" && txtMonto == "" && txtNumero == "") return View((List<RecargaTienda>)Session["ListaRecargasHistorial"]);
+        //    var filtro = (List<RecargaTienda>)Session["ListaRecargasHistorial"];
+        //    if (Session["ListaRecargasHistorial"] == null)
+        //        return View(filtro);
+        //    CultureInfo MyCultureInfo = new CultureInfo("en-US");
+        //    if (datepickerInicio != "")
+        //        filtro = filtro.Where(x => DateTime.Parse(x.Fecha.Substring(0, 10), MyCultureInfo) >= DateTime.Parse(datepickerInicio, MyCultureInfo)).ToList();
+        //    if (datepickerFin != "")
+        //        filtro = filtro.Where(x => DateTime.Parse(x.Fecha.Substring(0, 10), MyCultureInfo) <= DateTime.Parse(datepickerFin, MyCultureInfo)).ToList();
+        //    if (txtMonto != "")
+        //        filtro = filtro.Where(x => x.Monto == Convert.ToInt32(txtMonto)).ToList();
+        //    if (txtNumero != "")
+        //        filtro = filtro.Where(x => x.Numero.Contains(txtNumero)).ToList();
+
+        //    Session["Registros"] = filtro.Count;
+        //    Session["Total"] = decimal.Round(Convert.ToDecimal(filtro.Sum(x => x.CostoXdr)), 2);
+
+        //    Session["datepickerInicio"] = datepickerInicio;
+        //    Session["datepickerFin"] = datepickerFin;
+        //    Session["txtMonto"] = txtMonto;
+        //    Session["txtNumero"] = txtNumero;
+
+
+        //    return View(filtro);
+        //}
 
         public ActionResult Filtrar()
         {

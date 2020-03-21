@@ -66,7 +66,7 @@ namespace TiendaMVC.Class
 
     public static class _Global
     {
-        public const bool ModoPrueba = true;
+        public const bool ModoPrueba = false;
         public static float ReglaDeTres(float porciento = 0, float total = 0, float porcion = 0)
         {
 
