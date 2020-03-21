@@ -1,0 +1,141 @@
+﻿@model TiendaMVC.Class.Facturacion
+@using TiendaMVC.Class
+@using System.Globalization;
+@{
+    ViewBag.Title = "Facturación";
+    CultureInfo culture = new CultureInfo("en-US");
+    var desde = String.Format("{0:dddd d MMMM, yyyy}", Convert.ToDateTime(Session["FacturacionFromDate"], culture)); 
+    var hasta = String.Format("{0:dddd d MMMM, yyyy}", Convert.ToDateTime(Session["FacturacionToDate"], culture)); 
+   
+}
+
+@*<div class="table table-responsive">
+        <table class="table table-bordered">
+            <thead style="background-color:cornflowerblue;color:white;font-weight:500">
+                <tr>
+                    <td>Tienda</td>
+                    <td>Rol</td>
+                    <td>Recargas</td>
+                    <td>Teléfono</td>
+                    <td>Nauta</td>
+                    <td>Monto</td>
+                    <td>Ganancia</td>
+                <tr/>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><img src="~/Images/admin.png" width="25" height="25" />&nbsp;William</td>
+                    <td>Gerente</td>
+                    <td>100</td>
+                    <td>100</td>
+                    <td>0</td>
+                    <td>$1900.00</td>
+                    <td>$0.00</td>
+                <tr />
+                <tr>
+                    <td><img src="~/Images/asoiado.png" width="25" height="25" />&nbsp;William</td>
+                    <td>Asociado</td>
+                    <td>10</td>
+                    <td>10</td>
+                    <td>0</td>
+                    <td>$190.00</td>
+                    <td>$9.00</td>
+                <tr />
+            </tbody>
+        </table>
+    </div>*@
+
+
+<div class="table table-responsive">
+    <table class="table table-bordered">
+        <tr>
+            <td colspan="3" style="text-align:center;color:black">
+                <div style="float:left;margin-right:10px">Desde:  @desde</div>
+                <div style="float:left">Hasta: @hasta</div>
+            </td>
+        </tr>
+        <tr style="background-color: #4d94ff !important;">
+            <td colspan="3" style="text-align:center;color:white">
+                Monto a Depositar
+            </td>
+        </tr>
+        <tr>
+            <td>Por Usted </td>
+            <td style="width:30%"><strong><span>@Model.MontoDepositar.PorUstedCantiad</span> Recargas</strong></td>
+            <td style="width:30%"><strong>$<span>@Model.MontoDepositar.PorUsted.To_0_00()</span> USD </strong></td>
+        </tr>
+        <tr>
+            <td>Sus Asociados</td>
+            <td><strong><span>@Model.MontoDepositar.SusAsociadosCantidad</span> Recargas</strong></td>
+            <td><strong>$<span>@Model.MontoDepositar.SusAsociados.To_0_00()</span> USD</strong></td>
+        </tr>
+        <tr>
+            <td>Sus Comisiones</td>
+            <td colspan="2" style="text-align:center;color:forestgreen"><strong>$<span>@Model.MontoDepositar.Comisiones.To_0_00()</span> USD</strong></td>
+
+        </tr>
+        <tr style="background-color:darkgrey">
+            <td><strong>Total a depositar</strong></td>
+            <td colspan="2" style="text-align:center;color:black"><strong>$<span>@Model.MontoDepositar.Total.To_0_00()</span> USD</strong></td>
+        </tr>
+
+    </table>
+</div>
+
+
+<div class="table table-responsive">
+    <table class="table table-bordered">
+        <tr style="background-color: #4d94ff !important;">
+            <td colspan="3" style="text-align:center;color:white">
+                Resumen de Recargas
+            </td>
+        </tr>
+        <tr>
+            <td>Recargas Móviles </td>
+            <td style="width:30%"><strong><span>@Model.ResumenRecargas.RecargasMoviles</span></strong></td>
+            <td style="width:30%"><strong>$<span>@Model.ResumenRecargas.MontoRecargasMoviles.To_0_00()</span> USD </strong></td>
+        </tr>
+        <tr>
+            <td>Recargas Nautas</td>
+            <td><strong><span>@Model.ResumenRecargas.RecargasNautas</span></strong></td>
+            <td><strong>$<span>@Model.ResumenRecargas.MontoRecargasNautas.To_0_00()</span> USD</strong></td>
+        </tr>
+        <tr style="background-color:darkgrey">
+            <td><strong>Total</strong></td>
+            <td><strong><span>@Model.ResumenRecargas.TotalRecargas</span></strong></td>
+            <td><strong>$<span>@Model.ResumenRecargas.MontoTotal.To_0_00()</span> USD</strong></td>
+        </tr>
+
+    </table>
+</div>
+
+
+<div class="table table-responsive">
+    <table class="table table-bordered">
+        <tr style="background-color: #4d94ff !important;">
+            <td colspan="3" style="text-align:center;color:white">
+                Detalle de Comisiones
+            </td>
+        </tr>
+        <tr style="background-color: #4d94ff !important;">
+            <td style="text-align:center;color:white">Tienda</td>
+            <td style="width:30%;text-align:center;color:white">Monto</td>
+            <td style="width:30%;text-align:center;color:white">Su Comisión</td>
+        </tr>
+        @foreach (var cuenta in Model.DetalleComisiones)
+        {
+            <tr>
+                <td><span>@cuenta.Nombre</span></td>
+                <td><strong>$<span>@cuenta.Monto.To_0_00()</span> USD</strong></td>
+                <td><strong>$<span>@cuenta.Comision.To_0_00()</span> USD</strong></td>
+            </tr>
+        }
+
+        <tr style="background-color:darkgrey">
+            <td><strong>Total</strong></td>
+            <td><strong>$<span>@Model.DetalleComisionMontoTotal.To_0_00()</span> USD</strong></td>
+            <td><strong>$<span>@Model.DetalleComisionComisionesTotal.To_0_00()</span> USD</strong></td>
+        </tr>
+
+    </table>
+</div>

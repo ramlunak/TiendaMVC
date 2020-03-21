@@ -1,0 +1,216 @@
+﻿@using System.Web.Optimization
+@using WebHelpers.Mvc5.Enum
+@model TiendaMVC.Models.Login
+
+@{
+    Layout = null;
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+
+
+
+    <!-- Site made with Mobirise Website Builder v4.8.6, https://mobirise.com -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="generator" content="Mobirise v4.8.6, mobirise.com">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <link rel="shortcut icon" href="assets/images/logo4.png" type="image/x-icon">
+    <meta name="description" content="Site Maker Description">
+    <title>Login</title>
+
+
+    <link rel="stylesheet" href="~/Content/assets/web/assets/mobirise-icons/mobirise-icons.css">
+    <link rel="stylesheet" href="~/Content/assets/tether/tether.min.css">
+    <link rel="stylesheet" href="~/Content/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/assets/bootstrap/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="~/Content/assets/bootstrap/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="~/Content/assets/socicon/css/styles.css">
+    <link rel="stylesheet" href="~/Content/assets/theme/css/style.css">
+    <link rel="stylesheet" href="~/Content/assets/mobirise/css/mbr-additional.css" type="text/css">
+
+    <link href="~/Content/css/font-awesome.min.css" rel="stylesheet" />
+
+
+</head>
+<body>
+
+    @using (Html.BeginForm())
+
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <!--Modal: Login with Avatar Form-->
+        <div class="modal fade" id="modalLoginAvatar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog cascading-modal modal-avatar modal-sm" role="document">
+                <!--Content-->
+                <div class="modal-content">
+
+                    <!--Header-->
+                    <div style="text-align:center;margin:10px">
+                        <img src="~/Images/user.png" alt="avatar" class="rounded-circle img-responsive">
+                    </div>
+                    <!--Body-->
+                    <div class="modal-body text-center mb-1">
+
+                        <div class="md-form">
+                            <input type="text" id="user" name="user" placeholder="Usuario" value="" class="form-control validate">
+                        </div>
+
+                        <div class="md-form" style="margin-top:15px">
+                            <input type="password" id="pass" name="pass" placeholder="Contraseña" value="" class="form-control validate">
+                        </div>
+
+                    </div>
+
+                    <div id="mensaje" class="alert alert-danger" style="display:none"></div>
+
+                    <div class="text-center mt-4" style="margin-bottom:15px">
+                        <button type="submit" class="btn btn-default " style="background-color:green !important;color:white">ENTRAR <i class="fa fa-sign-in ml-1"></i></button>
+                    </div>
+
+                </div>
+
+            </div>
+            <!--/.Content-->
+        </div>
+
+        <!--Modal: Login with Avatar Form-->
+    }
+
+    <section class="header12 cid-r8H6N6bzUL mbr-fullscreen mbr-parallax-background" id="header12-d">
+
+        <div class="mbr-overlay" style="opacity: 0.7; background-color: rgb(15, 118, 153);">
+        </div>
+        <div class="container">
+            <div class="media-container">
+                <div class="col-md-12 align-center">
+                    <h1 class="mbr-section-title pb-3 mbr-white mbr-bold mbr-fonts-style display-1"><span style="font-weight: normal;"><em>TELEYUMA TIENDA</em></span></h1>
+                    <p class="mbr-text pb-3 mbr-white mbr-fonts-style display-5">La mejor opción para mantener en línea al mundo</p>
+                    <div class="mbr-section-btn align-center py-2" data-toggle="modal" data-target="#modalLoginAvatar"><a class="btn btn-md btn-secondary display-4">Autenticarse</a></div>
+                    <div class="icons-media-container mbr-white">
+                        <div class="card col-12 col-md-6">
+                            <div class="icon-block">
+                                <span class="mbr-iconfont mbri-mobirise"></span>
+                            </div>
+                            <h5 class="mbr-fonts-style display-5">Recargas móviles&nbsp;</h5>
+                        </div>
+                        <div class="card col-12 col-md-6">
+                            <div class="icon-block">
+                                <span class="mbr-iconfont mbri-wifi"></span>
+                            </div>
+                            <h5 class="mbr-fonts-style display-5">
+                                Recargas Nautas
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mbr-arrow hidden-sm-down" aria-hidden="true">
+            <a href="#next">
+                <i class="mbri-down mbr-iconfont"></i>
+            </a>
+        </div>
+    </section>
+    <section class="engine">how to build a site for free</section><section class="cid-r8H75L3HNr" id="footer1-e">
+
+        <div class="container">
+            <div class="media-container-row content text-white">
+                <div class="col-12 col-md-3">
+                    <div class="media-wrap">
+                        <img src="~/Content/assets/images/connexion-122x122.png" />
+                    </div>
+                </div>
+                <div class="col-12 col-md-3 mbr-fonts-style display-7">
+                    <h5 class="pb-3">
+                        Address
+                    </h5>
+                    <p class="mbr-text">
+                        1234 Street Name
+                        <br>City, AA 99999
+                    </p>
+                </div>
+                <div class="col-12 col-md-3 mbr-fonts-style display-7">
+                    <h5 class="pb-3">
+                        Contacts
+                    </h5>
+                    <p class="mbr-text">
+                        Email: support@teleyuma.com
+                        <br>Phone: +1 (786)271-9040<br><br>
+                    </p>
+                </div>
+                <div class="col-12 col-md-3 mbr-fonts-style display-7">
+                    <h5 class="pb-3"></h5>
+                    <p class="mbr-text"><br><br><br></p>
+                </div>
+            </div>
+            <div class="footer-lower">
+                <div class="media-container-row">
+                    <div class="col-sm-12">
+                        <hr>
+                    </div>
+                </div>
+                <div class="media-container-row mbr-white">
+                    <div class="col-sm-6 copyright">
+                        <p class="mbr-text mbr-fonts-style display-7">
+                            © Copyright 2018 TeleYuma - All Rights Reserved
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="~/Content/assets/web/assets/jquery/jquery.min.js"></script>
+    <script src="~/Content/assets/popper/popper.min.js"></script>
+    <script src="~/Content/assets/tether/tether.min.js"></script>
+    <script src="~/Content/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Content/assets/smoothscroll/smooth-scroll.js"></script>
+    <script src="~/Content/assets/vimeoplayer/jquery.mb.vimeo_player.js"></script>
+    <script src="~/Content/assets/parallax/jarallax.min.js"></script>
+    <script src="~/Content/assets/theme/js/script.js"></script>
+
+
+</body>
+</html>
+@{
+
+    var login = Model;
+    if (login != null)
+    {
+        if (login.error)
+        {
+
+            <script type="text/javascript">
+                $(document).ready(function () {
+
+                    function LoginFail() {
+                        $('#modalLoginAvatar').modal();
+                        $('#user').val('@login.user');
+                        $('#pass').val('@login.pass');
+                        $('#mensaje').html('@login.errorMensaje');
+                        $('#mensaje').css('display', 'block');
+                    }
+
+                    LoginFail();
+                });
+            </script>
+
+        }
+    }
+
+}

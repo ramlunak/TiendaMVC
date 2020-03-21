@@ -1,0 +1,69 @@
+﻿@using WebHelpers.Mvc5
+@using TiendaMVC.Class;
+<aside class="main-sidebar">
+    <section class="sidebar">
+       
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">MENU</li>
+
+            <li class="@Url.IsLinkActive("Create", "RecargaTiendas")">
+                <a href="@Url.Action("Create", "RecargaTiendas")"><i class="fa fa-link"></i> <span>Recarga Movil</span></a>
+            </li>
+            <li class="@Url.IsLinkActive("Create", "RecargaNautas")">
+            <a href="@Url.Action("Create", "RecargaNautas")"><i class="fa fa-link"></i> <span>Recarga Nauta</span></a>
+        </li>
+        <li class="@Url.IsLinkActive("Create", "RecargaReservadas")">
+            <a href="@Url.Action("Create", "RecargaReservadas")"><i class="fa fa-link"></i> <span>Recargas Reservadas</span></a>
+        </li>
+
+            @{
+                if ((TipoTienda)Session["TipoTienda"] == TipoTienda.Padre)
+                {
+                    <li class="@Url.IsLinkActive("Index", "account_info")">
+                        <a href="@Url.Action("Index", "account_info")"><i class="fa fa-link"></i> <span>Asociados</span></a>
+                    </li>
+                }
+            }
+
+            @{
+                if ((TipoTienda)Session["TipoTienda"] == TipoTienda.Padre)
+                {
+                    <li class="@Url.IsLinkActive("Index", "Facturacion")">
+                        <a href="@Url.Action("Index", "Facturacion")"><i class="fa fa-link"></i> <span>Facturación</span></a>
+                    </li>
+                }
+            }
+
+            @{
+                if ((TipoTienda)Session["TipoTienda"] == TipoTienda.Padre)
+                {
+                    if (((customer_info)Session["CurrentCustomer"]).EnabledPromociones)
+                    {
+                        <li class="@Url.IsLinkActive("Index", "Campaign")">
+                            <a href="@Url.Action("Index", "Campaign")"><i class="fa fa-link"></i> <span>Promociones</span></a>
+                        </li>
+                    }
+
+                }
+            }
+
+            @{
+                if ((TipoTienda)Session["TipoTienda"] == TipoTienda.Hijo)
+                {
+                    if (((customer_info)Session["CurrentAccont"]).EnabledPromociones)
+                    {
+                        <li class="@Url.IsLinkActive("Index", "Campaign")">
+                            <a href="@Url.Action("Index", "Campaign")"><i class="fa fa-link"></i> <span>Promociones</span></a>
+                        </li>
+                    }
+                }
+            }
+
+            <li class="@Url.IsLinkActive("HistoriaL", "RecargaTiendas")">
+                <a href="@Url.Action("HistoriaL", "RecargaTiendas")"><i class="fa fa-link"></i> <span>Historial</span></a>
+            </li>
+
+        </ul>
+        @* END Menu *@
+    </section>
+</aside>

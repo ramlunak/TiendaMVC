@@ -1,0 +1,22 @@
+﻿@model TiendaMVC.Models.RecargaReservada
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h3>Está seguro que desea eliminar la recarga?</h3>
+<div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-danger" />
+            <div class="btn btn-primary"> @Html.ActionLink("Cancelar", "Create", null, new { Style = "color:White" })</div>
+
+        </div>
+
+    }
+</div>
+

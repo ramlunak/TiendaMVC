@@ -1,0 +1,188 @@
+﻿@model TiendaMVC.Models.RecargaTienda
+@using TiendaMVC.Class
+@using System.Threading.Tasks;
+
+@{
+    ViewBag.Title = "Recarga Movil";
+    var CurrentCustomer = (customer_info)Session["CurrentCustomer"];
+
+    int RecargaTiendaSaveChangesResul = 0;
+
+    if (Session["RecargaTiendaError"] != null)
+    {
+        <div class="alert alert-error alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong> @Session["RecargaTiendaError"]</strong>
+        </div>
+
+        Session["RecargaTiendaError"] = null;
+    }
+}
+
+
+@using (Html.BeginForm())
+
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <table class="table" align="left" style="max-width:500px" cellspacing="0">
+
+        <tr>
+            <td>
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <img id="bandera" width="40" style="max-width:40px !important" height="20" src="~/Images/Paises/cu.png" />
+                    </div>
+                    <select id="CodigoPais"
+                            name="CodigoPais"
+                            class="selectpicker form-control"
+                            data-show-subtext="true"
+                            data-live-search="true"
+                            onchange="SelectOnchange(this);">
+
+                        @{
+                            var listaPaises = Pais.GetList();
+                            foreach (var item in listaPaises)
+                            {
+                                if (item.PrefijoTelefonico == "53")
+                                {
+                                    <option selected="selected" id="@item.iso2" value="@item.PrefijoTelefonico">(+@item.PrefijoTelefonico) @item.Nombre</option>
+
+                                }
+                                @*else
+                                    {
+                                        <option id="@item.iso2" value="@item.PrefijoTelefonico">(+@item.PrefijoTelefonico) @item.Nombre</option>
+
+                                    }*@
+                            }
+                        }
+
+                    </select>
+                </div>
+                @Html.ValidationMessageFor(model => model.CodigoPais, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+
+                <table border="0" style="width:100%">
+                    <tr>
+                        <td>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i id="prefijo">+53</i>
+                                </div>
+                                <input id="Numero" name="Numero" type="text" placeholder="Número" class="form-control">
+
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-dollar"></i>
+                                </span>
+                                <select id="Monto"
+                                        name="Monto"
+                                        title="monto"
+                                        class="selectpicker form-control"
+                                        data-show-subtext="true"
+                                        data-live-search="true">
+                                    @for (int i = 15; i <= 50; i += 5)
+                                    {
+                                        if (i == 20)
+                                        {
+                                            <option selected="selected" value="@i">@i.To_0_00() USD</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@i">@i.To_0_00() USD</option>
+                                        }
+
+                                    }
+
+                                </select>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr >
+                        <td colspan="2" >
+                            <input id="Nombre" name="Nombre" maxlength="20"
+                                   style="margin-top:10px"
+                                   type="text" placeholder="Nombre" class="form-control">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <input type="button" style="width:100%;margin-top:10px" accesskey="13" onclick="ValidarVecesSemana();" value="Agregar a la Lista" class="btn btn-sm bg-green-active" />
+
+                        </td>
+                    </tr>
+                </table>
+
+                @Html.ValidationMessageFor(model => model.Monto, "", new { @class = "text-danger" })
+
+                @Html.ValidationMessageFor(model => model.Numero, "", new { @class = "text-danger" })
+
+            </td>
+        </tr>
+
+    </table>
+}
+
+<div>
+    @{Html.RenderAction("Index");}
+</div>
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="~/Content/js/MyJS.js"></script>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $("#Numero").keydown(function (event) {
+
+            if (event.shiftKey) {
+                event.preventDefault();
+            }
+
+            if (event.keyCode == 46 || event.keyCode == 8) {
+            }
+            else {
+                if (event.keyCode < 95) {
+                    if (event.keyCode < 48 || event.keyCode > 57) {
+                        event.preventDefault();
+                    }
+                }
+                else {
+                    if (event.keyCode < 96 || event.keyCode > 105) {
+                        event.preventDefault();
+                    }
+                }
+            }
+        });
+
+        $("#NumeroRemitente").keydown(function (event) {
+
+            if (event.shiftKey) {
+                event.preventDefault();
+            }
+
+            if (event.keyCode == 46 || event.keyCode == 8) {
+            }
+            else {
+                if (event.keyCode < 95) {
+                    if (event.keyCode < 48 || event.keyCode > 57) {
+                        event.preventDefault();
+                    }
+                }
+                else {
+                    if (event.keyCode < 96 || event.keyCode > 105) {
+                        event.preventDefault();
+                    }
+                }
+            }
+        });
+
+    });
+</script>

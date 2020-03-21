@@ -1,0 +1,49 @@
+﻿@using System.Web.Mvc;
+@using System.Collections.Generic;
+@using TiendaMVC.Extensions.Alerts;
+@{
+
+    var alerts = TempData.ContainsKey(Alert.TempDataKey)
+                ? (List<Alert>)TempData[Alert.TempDataKey]
+                : new List<Alert>();
+    if (alerts.Any())
+    {
+        ;
+    }
+
+    foreach (var alert in alerts)
+    {
+        var dismissableClass = alert.Dismissable ? "alert-dismissable" : null;
+
+        <div onload="AutoClose(this)" class="alert alert-@alert.AlertStyle @dismissableClass">
+            @if (alert.Dismissable)
+            {
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            }
+            @Html.Raw(alert.Message)
+        </div>
+             
+        <script type="text/javascript">        
+            function AutoClose() {
+                $(".alert").fadeTo(1000, 0).slideUp(1000, function () {
+                    $(this).remove();
+                });
+            }
+            $(document).ready(function () {
+
+               
+
+                window.setTimeout(function () {
+                    $(".alert").fadeTo(1000, 0).slideUp(1000, function () {
+                        $(this).remove();
+                    });
+
+                }, 5000);
+            });
+
+        </script>
+    }
+
+}

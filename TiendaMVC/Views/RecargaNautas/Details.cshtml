@@ -1,0 +1,90 @@
+﻿@model TiendaMVC.Models.RecargaNauta
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>RecargaNauta</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.IdCuenta)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IdCuenta)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoRecarga)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoRecarga)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CodigoPais)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CodigoPais)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Numero)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Numero)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Monto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Monto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Impuesto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Impuesto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fecha)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fecha)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.remitente)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.remitente)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

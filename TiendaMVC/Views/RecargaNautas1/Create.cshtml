@@ -1,0 +1,72 @@
+﻿@model TiendaMVC.Models.RecargaNauta
+
+@{
+    ViewBag.Title = "Recarga Nauta";
+    var nauta = "@nauta.com.cu";
+}
+
+@using (Html.BeginForm())
+
+{
+
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<table class="table" align="left" style="max-width:500px" cellspacing="0">
+    <tr>
+        <td>
+
+            <div class="input-group">
+                <div class="input-group-addon">
+                    <i class="fa fa-dollar"></i>
+                </div>
+                <select id="Monto"
+                        name="Monto"
+                        title="Seleccionar Monto"
+                        class="selectpicker form-control"
+                        data-show-subtext="true"
+                        data-live-search="true">
+                    
+                    <option value="175">10 USD</option>
+                    <option value="175">10 USD</option>
+                    <option value="175">10 USD</option>
+                    <option value="175">10 USD</option>
+
+
+                </select>
+            </div>
+            @Html.ValidationMessageFor(model => model.Monto, "", new { @class = "text-danger" })
+
+        </td>
+    </tr>
+    <tr>
+        <td>
+
+            <div class="input-group">
+                <input id="Usuario" name="Usuario" type="text" placeholder="Usuario" class="form-control">
+                <div class="input-group-addon">
+                    <i id="prefijo">@nauta</i>
+
+                </div>
+            </div>
+            @Html.ValidationMessageFor(model => model.Usuario, "", new { @class = "text-danger" })
+
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Agregar" class="btn bg-green-active" />
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+}
+
+<div>
+    @{Html.RenderAction("Index");}
+</div>
+

@@ -1,0 +1,26 @@
+﻿@model TiendaMVC.Models.RecargaReservada
+
+@using TiendaMVC.Class
+
+@{
+      
+    var CurrentCustomer = (customer_info)Session["CurrentCustomer"];
+    ViewBag.Title = "Recargas Reservadas";
+}
+
+<div id="Mensaje" style="display:none" class="alert alert-info">
+    <button class="close" data-dismiss="alert"><samp>&times;</samp></button>
+    <label>asdasd</label>
+</div>
+
+
+<div>
+
+    @{Html.RenderAction("Index");}
+
+</div>
+
+<script type="text/javascript" src="~/Content/js/MyJS.js">
+</script>
+
+

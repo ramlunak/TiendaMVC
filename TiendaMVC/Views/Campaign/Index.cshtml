@@ -1,0 +1,263 @@
+﻿@model IEnumerable<TiendaMVC.Models.Campaign>
+@using TiendaMVC.Models;
+@{
+    ViewBag.Title = "Promociones";
+
+    var ListaPromociones = Model;
+
+    var promocion = new Campaign();
+    if (Session["EditarPromocion"] != null)
+    {
+        promocion = (Campaign)Session["EditarPromocion"];
+    }
+    if (Session["CampaignName"] != null || Session["CampaignSms"] != null)
+    {
+        promocion.name = Session["CampaignName"].ToString();
+        promocion.sms = Session["CampaignSms"].ToString();
+    }
+
+}
+
+<div class="modal fade" id="modalCampain" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="exampleModalLongTitle">El sistema está enviendo los sms de la campaña, por favor espere que se complete la acción.</h4>
+
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="progress">
+                        <div id="div_barraProgreso" class="progress-bar  progress-striped" style="width:0%">
+                            0%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div style="float:left" class="btn btn-default" id="div_Enviados"> </div> <div style="float:left;margin-left:15px;margin-right:15px;"> SMS enviados de </div>  <div style="float:left" class="btn btn-primary" id="div_Total"></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<i> </i>
+
+
+@using (Html.BeginForm("Cargar", "Campaign", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <table class="table" align="left" style="max-width:500px" cellspacing="0">
+        <tr>
+            <td>
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i id="prefijo"></i>
+                    </div>
+                    <input id="CampaignName" name="CampaignName" value="@promocion.name" placeholder="Nombre de la Promocion" type="text" class="form-control">
+
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i id="prefijo"><label id="count_sms">1</label>/<label id="countCaracteres">0</label></i>
+                    </div>
+                    <textarea onchange="CampaignSmsContar()" onformchange="CampaignSmsContar()" onkeydown="CampaignSmsContar()" onkeyup="CampaignSmsContar()" id="CampaignSms" name="CampaignSms" placeholder="Mensaje de la Promocion" rows="5" class="form-control">@promocion.sms</textarea>
+
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i id="prefijo"></i>
+                    </div>
+                    <input id="file" name="file" accept="text/plain,.csv" type="file" class="form-control">
+
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input class="btn" type="submit" onclick="showCargando();" />
+            </td>
+        </tr>
+    </table>
+}
+
+
+
+<div class="table table-responsive no-border">
+
+
+    <br />
+    <table class="table">
+        @*<tr>
+                <td>
+                    <div class="form-group" style="float:right">
+                            <div class="btn bg-blue btn-sm" onclick="MostarCargando();"> @Html.ActionLink("Recargar Lista", "Recargar", "", new { Style = "color:white" }) </div>
+                        </div>
+                </td>
+            </tr>*@
+        <tr style="background-color: #4d94ff !important;">
+
+            <th>
+                Nombre
+            </th>
+            <th>
+                SMS
+            </th>
+            <th>
+                Costo
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in ListaPromociones)
+        {
+            <tr>
+                <td>
+                    @item.name
+                </td>
+                <td>
+                    <textarea rows="5" class="form-control">@item.sms</textarea>
+                </td>
+                <td>
+                    @item.cost
+                </td>
+                <td>
+                    @*<input class="btn btn-danger btn-xs" type="submit" id="btnCreate" onclick="Eliminar(this,@item.id, event);" value="Eliminar" />*@
+                    <div class="btn btn-success btn-xs"> @Html.ActionLink("Editar", "Edit", new { id = item.id }, new { Style = "color:white" }) </div>
+
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+<script src="~/Content/js/sweetalert2.min.js"></script>
+<script src="~/Content/js/plugins/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+
+
+        $(document).mousemove(function (event) {
+            $("#texto").text("Coordenadas en del ratón en la parte visible del navegador: " + event.clientX + ", " + event.clientY);
+            $("#texto2").text("Coordenadas absolutas del ratón en la página actual: " + event.pageX + ", " + event.pageY);
+        });
+
+        $("#prueba").mousemove(function (event) {
+            var x = event.pageX - this.offsetLeft;
+            var y = event.pageY - this.offsetTop;
+            $("#texto3").text("Coordenadas del ratón dentro del elemento: " + x + ", " + y);
+        });
+
+        CampaignSmsContar();
+      
+    });
+
+
+    function EnviarSMS() {
+        $('#modalCampain').modal('show');
+        var url = "/Campaign/EnviarSMS/";
+        $.get(url, DataBind);
+        function DataBind(data) {
+            //if (data.guardar == "no") return;
+            if (data.fin == "si" ) {
+                $('#modalCampain').modal('hide');
+                Guardar(data);
+            } else {
+                var porciento = parseInt(parseInt(data.Enviados) / parseInt(data.Total) * 100);
+                $("#div_barraProgreso").css("width", porciento + "%");
+                $("#div_barraProgreso").html(porciento + "%");
+                $("#div_Enviados").html(data.Enviados);
+                $("#div_Total").html(data.Total);
+                EnviarSMS();
+            };
+
+        }
+    }
+
+
+    function Guardar(data) {
+        var url = "/Campaign/Guardar/";
+        $.get(url, DataBind);
+        function DataBind(data) {
+
+            if (data.fin == "si") {
+                  swal({
+                title: data.respuesta,
+                type: 'info',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+            }).then((result) => {
+                window.location = "@Url.Action("Index","Campaign")";
+                });
+            } 
+
+        }
+    }
+
+    function CampaignSmsContar() {
+        var count = $("#CampaignSms").val().length;
+        $("#countCaracteres").html(count);
+        var smss = count / 161;
+        var cantidad = parseInt(smss) + 1;
+
+        $("#count_sms").html(cantidad);
+
+
+    }
+
+
+
+    function showCargando() {
+        //swal({
+        //    title: 'Por favor espere un momento.',
+        //    imageUrl: '../../Images/Cargando/cargandoHrizontal2.gif',
+        //    imageAlt: 'Custom image',
+        //    imageWidth: 200,
+        //    imageHeight: 100,
+        //    showConfirmButton: false,
+        //    allowOutsideClick: false,
+        //    allowEscapeKey: false,
+        //    animation: true
+        //})
+    }
+
+
+</script>
+
+
+@if (Session["msg"] != null)
+{
+    <script type="text/javascript">
+        function showMsg() {           
+            
+            swal({
+                title: "@Session["msg"]",
+                type: 'info',
+                showCancelButton: false,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+            }).then((result) => {
+                EnviarSMS();
+                });
+           
+        }
+        showMsg();
+    </script>
+    Session["msg"] = null;
+}

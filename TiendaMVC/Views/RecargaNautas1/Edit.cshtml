@@ -1,0 +1,77 @@
+﻿@model TiendaMVC.Models.RecargaNauta
+
+@{
+    ViewBag.Title = "Editar Recarga";
+    var nauta = "@nauta.com.cu";
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.id)
+    
+    <table class="table" align="left" style="max-width:500px" cellspacing="0">
+        <tr>
+            <td>
+
+                <select id="Monto"
+                        name="Monto"
+                        title="Seleccionar Monto"
+                        class="selectpicker form-control"
+                        data-show-subtext="true"
+                        data-live-search="true">
+                    @for (int i = 15; i <= 50; i += 5)
+                    {
+                        if (Model.Monto == i)
+                        {
+                            <option selected="selected" value="@i">@i USD</option>
+                        }
+                        else
+                        {
+                            <option value="@i">@i USD</option>
+                        }
+                    }
+
+                </select>
+
+                @Html.ValidationMessageFor(model => model.Monto, "", new { @class = "text-danger" })
+
+
+            </td>
+        </tr>
+     
+        <tr>
+            <td>
+
+                <div class="input-group">
+
+                    <input id="Usuario" name="Usuario" type="text" value="@Model.Usuario" placeholder="Número" class="form-control">
+                    <div class="input-group-addon">
+                        <i id="prefijo">@nauta</i>
+                    </div>
+                </div>
+                @Html.ValidationMessageFor(model => model.Usuario, "", new { @class = "text-danger" })
+
+
+            </td>
+        </tr>
+
+    </table>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Guardar" class="btn btn-success" />
+            <div class="btn btn-danger"> @Html.ActionLink("Cancelar", "Create", null, new { Style = "color:white" })</div>
+        </div>
+    </div>
+
+</div>
+}
+
