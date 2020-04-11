@@ -133,7 +133,8 @@ namespace TiendaMVC.Class
                 int thisWeekNumber = GetIso8601WeekOfYear(DateTime.Today);
 
                 DateTime firstDayOfWeek = FirstDateOfWeek(DateTime.Now.Year, thisWeekNumber, CultureInfo.CurrentCulture);
-                return firstDayOfWeek.Date.ToString("yyyy/MM/dd HH:mm:ss");
+                var value = DateTime.Parse(firstDayOfWeek.Date.ToString("yyyy/MM/dd")).AddHours(00).AddMinutes(00).AddSeconds(00).ToString("yyyy-MM-dd HH:mm:ss"); ; 
+                return value;
             }
         }
 
@@ -143,8 +144,8 @@ namespace TiendaMVC.Class
             {
                 var first = DateTime.Parse(FromDate);
                 var ultimoSemana = first.AddDays(6);
-                return ultimoSemana.Date.ToString("yyyy/MM/dd HH:mm:ss");
-
+                var value = DateTime.Parse(ultimoSemana.Date.ToString("yyyy/MM/dd")).AddHours(23).AddMinutes(59).AddSeconds(59).ToString("yyyy-MM-dd HH:mm:ss"); ; 
+                return value;
             }
         }
 

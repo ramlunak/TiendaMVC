@@ -110,10 +110,17 @@ namespace TiendaMVC.Controllers
             if (!IsLogin()) return RedirectToAction("Index", "Login");
 
             CultureInfo MyCultureInfo = new CultureInfo("en-US");
+           
             var dataInicio = DateTime.Parse(datepickerInicio, MyCultureInfo).ToShortDateString();
             var dataFin = DateTime.Parse(datepickerFin, MyCultureInfo).ToShortDateString();
-            var utc_from = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Parse(dataInicio), "US Eastern Standard Time", "UTC").ToString("yyyy-MM-dd HH:mm:ss");          
-            var utc_to = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Parse(dataFin), "US Eastern Standard Time", "UTC").ToString("yyyy-MM-dd HH:mm:ss");
+
+            var valueInicio = DateTime.Parse(dataInicio).AddHours(00).AddMinutes(00).AddSeconds(00).ToString("yyyy-MM-dd HH:mm:ss"); ;
+            var utc_from = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Parse(valueInicio), "US Eastern Standard Time", "UTC").ToString("yyyy-MM-dd HH:mm:ss");
+
+         
+            var valueFin = DateTime.Parse(dataFin).AddHours(23).AddMinutes(59).AddSeconds(59).ToString("yyyy-MM-dd HH:mm:ss"); ;
+            var utc_to = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(DateTime.Parse(valueFin), "US Eastern Standard Time", "UTC").ToString("yyyy-MM-dd HH:mm:ss");
+          
             var facturacion = new Facturacion();
 
             Session["HistorialFromDate"] = utc_from;
