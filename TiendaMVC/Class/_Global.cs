@@ -249,19 +249,17 @@ namespace TiendaMVC.Class
             credit_limit = 1000
         };
 
-        public static string AuthInfoAdminJson
+        public async static Task<string> GetAuthInfoAdminJson()
         {
-            get
+            var credenciales = await Get<Credenciales>("credenciales/2");
+
+            var admin = new AuthInfo
             {
-                var admin = new AuthInfo
-                {
-                   session_id= "9a5d0bcc0236d542cccc6cf158840562"
-                };
-                return JsonConvert.SerializeObject(admin);
-            }
+                session_id = credenciales.KeyGenerate
+            };
+            return JsonConvert.SerializeObject(admin);
         }
 
-    
         public static string BaseUrlServicio = "http://smsteleyuma.azurewebsites.net/Service1.svc/";
 
         public static string BaseUrlAdmin = "https://mybilling.teleyuma.com/rest/";

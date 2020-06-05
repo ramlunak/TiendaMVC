@@ -459,6 +459,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Class\Account.cs" />
     <Compile Include="Class\AuthInfo.cs" />
+    <Compile Include="Class\Credenciales.cs" />
     <Compile Include="Class\Customer.cs" />
     <Compile Include="Class\Ding.cs" />
     <Compile Include="Class\ErrorHandling.cs" />

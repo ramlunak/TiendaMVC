@@ -334,7 +334,7 @@ namespace TiendaMVC.Class
                 try
                 {
                     var param = JsonConvert.SerializeObject(new { customer_info = this });
-                    URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.validate_customer_info + "/" + _Global.AuthInfoAdminJson + "/" + param;
+                    URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.validate_customer_info + "/" + await _Global.GetAuthInfoAdminJson() + "/" + param;
 
                     var response = await client.GetAsync(URL);
                     var json = await response.Content.ReadAsStringAsync();
@@ -392,7 +392,7 @@ namespace TiendaMVC.Class
                 try
                 {
                     var param = JsonConvert.SerializeObject(new { customer_info = this });
-                    URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.add_customer + "/" + _Global.AuthInfoAdminJson + "/" + param;
+                    URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.add_customer + "/" + await _Global.GetAuthInfoAdminJson() + "/" + param;
                     var response = await client.GetAsync(URL);
                     var json = await response.Content.ReadAsStringAsync();
                     var ErrorHandling = JsonConvert.DeserializeObject<ErrorHandling>(json);
@@ -459,7 +459,7 @@ namespace TiendaMVC.Class
         //        try
         //        {
         //            var param = JsonConvert.SerializeObject(new { account_info = this });
-        //            URL = _Global.BaseUrlAdmin + _Global.Servicio.Account + "/" + _Global.Metodo.update_account + "/" + _Global.AuthInfoAdminJson + "/" + param;
+        //            URL = _Global.BaseUrlAdmin + _Global.Servicio.Account + "/" + _Global.Metodo.update_account + "/" + await _Global.GetAuthInfoAdminJson() + "/" + param;
         //            var response = await client.GetAsync(URL);
         //            var json = await response.Content.ReadAsStringAsync();
         //            var ErrorHandling = JsonConvert.DeserializeObject<ErrorHandling>(json);
@@ -503,7 +503,7 @@ namespace TiendaMVC.Class
                     else
                         param = JsonConvert.SerializeObject(new { customer_info = this });
 
-                    URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.update_customer + "/" + _Global.AuthInfoAdminJson + "/" + param;
+                    URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.update_customer + "/" + await _Global.GetAuthInfoAdminJson() + "/" + param;
                     var response = await client.GetAsync(URL);
                     var json = await response.Content.ReadAsStringAsync();
                     var ErrorHandling = JsonConvert.DeserializeObject<ErrorHandling>(json);
@@ -535,7 +535,7 @@ namespace TiendaMVC.Class
                 try
                 {
                     var param = JsonConvert.SerializeObject(new { i_customer = this.i_customer });
-                    var URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.get_customer_info + "/" + _Global.AuthInfoAdminJson + "/" + param;
+                    var URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.get_customer_info + "/" + await _Global.GetAuthInfoAdminJson() + "/" + param;
 
                     var response = await client.GetAsync(URL);
                     var json = await response.Content.ReadAsStringAsync();
@@ -565,7 +565,7 @@ namespace TiendaMVC.Class
                 {
                     this.i_customer = 260271;
                     var param = JsonConvert.SerializeObject(this);
-                    var URL = _Global.BaseUrlAdmin + _Global.Servicio.Account + "/" + _Global.Metodo.get_account_list + "/" + _Global.AuthInfoAdminJson + "/" + param;
+                    var URL = _Global.BaseUrlAdmin + _Global.Servicio.Account + "/" + _Global.Metodo.get_account_list + "/" + await _Global.GetAuthInfoAdminJson() + "/" + param;
                     var response = await client.GetStringAsync(URL);
                     return JsonConvert.DeserializeObject<CustomerObject>(response).customer_info;
                 }
@@ -586,7 +586,7 @@ namespace TiendaMVC.Class
                 try
                 {
                     var param = JsonConvert.SerializeObject(new { login = user });
-                    var URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.get_customer_info + "/" + _Global.AuthInfoAdminJson + "/" + param;
+                    var URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.get_customer_info + "/" + await _Global.GetAuthInfoAdminJson() + "/" + param;
 
                     var response = await client.GetAsync(URL);
                     var json = await response.Content.ReadAsStringAsync();
@@ -616,7 +616,7 @@ namespace TiendaMVC.Class
                 try
                 {
                     var param = JsonConvert.SerializeObject(this);
-                    var URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.get_customer_info + "/" + _Global.AuthInfoAdminJson + "/" + param;
+                    var URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.get_customer_info + "/" + await _Global.GetAuthInfoAdminJson() + "/" + param;
                     var response = await client.GetAsync(URL);
                     var json = await response.Content.ReadAsStringAsync();
                     var ErrorHandling = JsonConvert.DeserializeObject<ErrorHandling>(json);
@@ -652,7 +652,7 @@ namespace TiendaMVC.Class
                 try
                 {
                     var param = JsonConvert.SerializeObject(GetRetailCustomerXDRListRequest);
-                    var URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.get_customer_xdrs + "/" + _Global.AuthInfoAdminJson + "/" + param;
+                    var URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.get_customer_xdrs + "/" + await _Global.GetAuthInfoAdminJson() + "/" + param;
                     var response = await client.GetAsync(URL);
                     var Result = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<GetRetailCustomerXDRListResponse>(Result);
@@ -683,7 +683,7 @@ namespace TiendaMVC.Class
                 try
                 {
                     var param = JsonConvert.SerializeObject(MakeCustomerTransactionRequest);
-                    var URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.make_transaction + "/" + _Global.AuthInfoAdminJson + "/" + param;
+                    var URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.make_transaction + "/" + await _Global.GetAuthInfoAdminJson() + "/" + param;
 
                     var response = await client.GetStringAsync(URL);
                     MakeCustomerTransactionResponse = JsonConvert.DeserializeObject<MakeCustomerTransactionResponse>(response);
@@ -707,7 +707,7 @@ namespace TiendaMVC.Class
                 {
 
                     var param = JsonConvert.SerializeObject(new { i_customer = this.i_distributor });
-                    var URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.get_customer_info + "/" + _Global.AuthInfoAdminJson + "/" + param;
+                    var URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.get_customer_info + "/" + await _Global.GetAuthInfoAdminJson() + "/" + param;
                     var response = await client.GetStringAsync(URL);
                     return JsonConvert.DeserializeObject<CustomerObject>(response).customer_info;
                 }
@@ -728,7 +728,7 @@ namespace TiendaMVC.Class
                 {
 
                     var param = JsonConvert.SerializeObject(new { i_customer = id });
-                    var URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.get_customer_info + "/" + _Global.AuthInfoAdminJson + "/" + param;
+                    var URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.get_customer_info + "/" + await _Global.GetAuthInfoAdminJson() + "/" + param;
                     var response = await client.GetStringAsync(URL);
                     return JsonConvert.DeserializeObject<CustomerObject>(response).customer_info;
                 }
@@ -754,7 +754,7 @@ namespace TiendaMVC.Class
                         limit = 10000
                     }.AsJson();
 
-                    var URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.get_customer_list + "/" + _Global.AuthInfoAdminJson + "/" + param;
+                    var URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.get_customer_list + "/" + await _Global.GetAuthInfoAdminJson() + "/" + param;
 
                     var response = await client.GetAsync(URL);
                     var json = await response.Content.ReadAsStringAsync();
@@ -790,7 +790,7 @@ namespace TiendaMVC.Class
         //                limit = 100,
         //                i_customer = this.i_customer
         //            }.AsJson();
-        //            var URL = _Global.BaseUrlAdmin + _Global.Servicio.Account + "/" + _Global.Metodo.get_account_list + "/" + _Global.AuthInfoAdminJson + "/" + param;
+        //            var URL = _Global.BaseUrlAdmin + _Global.Servicio.Account + "/" + _Global.Metodo.get_account_list + "/" + await _Global.GetAuthInfoAdminJson() + "/" + param;
 
         //            var response = await client.GetAsync(URL);
         //            var json = await response.Content.ReadAsStringAsync();
@@ -826,7 +826,7 @@ namespace TiendaMVC.Class
                         new_password = newPassword
                     }.AsJson();
 
-                    var URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.change_password + "/" + _Global.AuthInfoAdminJson + "/" + param;
+                    var URL = _Global.BaseUrlAdmin + _Global.Servicio.Customer + "/" + _Global.Metodo.change_password + "/" + await _Global.GetAuthInfoAdminJson() + "/" + param;
 
                     var response = await client.GetAsync(URL);
                     var json = await response.Content.ReadAsStringAsync();

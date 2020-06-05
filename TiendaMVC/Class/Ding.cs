@@ -18,12 +18,20 @@ namespace TiendaMVC.Class
             public string countryIso { get; set; }
         }
 
+        public async static Task<string> GetApiKey()
+        {
+            var credenciales = await _Global.Get<Credenciales>("credenciales/3");
+            return credenciales.KeyGenerate;
+        }
+
         public static async Task<GetProductsResponse> GetProductsBycountryIso(string iso)
         {
+            var api_key = await GetApiKey();
+
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Add("api_key", "GuXIN76oLlt6H9SXQf2w5n");
+                client.DefaultRequestHeaders.Add("api_key", api_key);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -43,10 +51,12 @@ namespace TiendaMVC.Class
 
         public static async Task<SendTransferResponse> SendTransfer(SendTransferRequest entity)
         {
+            var api_key = await GetApiKey();
+
             using (var client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Add("api_key", "GuXIN76oLlt6H9SXQf2w5n");
+                client.DefaultRequestHeaders.Add("api_key", api_key);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -63,9 +73,7 @@ namespace TiendaMVC.Class
                 }
             }
         }
-
-
-
+               
         public class agent_balance
         {
             [DataMember]
