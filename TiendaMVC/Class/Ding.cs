@@ -20,7 +20,7 @@ namespace TiendaMVC.Class
 
         public async static Task<string> GetApiKey()
         {
-            var credenciales = await _Global.Get<Credenciales>("credenciales/3");
+            var credenciales = await _Global.GetRestApi<Credenciales>("credenciales/3");
             return credenciales.KeyGenerate;
         }
 

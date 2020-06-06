@@ -251,7 +251,7 @@ namespace TiendaMVC.Class
 
         public async static Task<string> GetAuthInfoAdminJson()
         {
-            var credenciales = await Get<Credenciales>("credenciales/2");
+            var credenciales = await GetRestApi<Credenciales>("credenciales/2");
 
             var admin = new AuthInfo
             {
@@ -397,6 +397,30 @@ namespace TiendaMVC.Class
                 try
                 {
                     var response = await client.GetAsync(BaseUrlServicio + metodo);
+                    var result = await response.Content.ReadAsStringAsync();
+                    return JsonConvert.DeserializeObject<T>(result);
+                }
+                catch (Exception ex)
+                {
+                    return default(T);
+                }
+            }
+        }
+
+        public static string MasterURL = "https://teleyumarestapi.azurewebsites.net/api/";     
+
+        public static async Task<T> GetRestApi<T>(string metodo)
+        {
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Clear();
+                client.DefaultRequestHeaders.Add("apiKey", "a6V9NPooCNWzGaaEMsvPvQ==");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                try
+                {
+                    var response = await client.GetAsync(MasterURL + metodo);
                     var result = await response.Content.ReadAsStringAsync();
                     return JsonConvert.DeserializeObject<T>(result);
                 }
