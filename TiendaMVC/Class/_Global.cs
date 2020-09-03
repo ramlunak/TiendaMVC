@@ -262,9 +262,9 @@ namespace TiendaMVC.Class
 
         public static string BaseUrlServicio = "http://smsteleyuma.azurewebsites.net/Service1.svc/";
 
-        public static string BaseUrlAdmin = "https://mybilling.teleyuma.com/rest/";
+        public static string BaseUrlAdmin = "https://mybilling.willtech.us/rest/";
 
-        public static string BaseUrlCliente = "https://mybilling.teleyuma.com:8444/rest/";
+        public static string BaseUrlCliente = "https://mybilling.willtech.us:8444/rest/";
 
         public static string CodigoVerificacion
         {
