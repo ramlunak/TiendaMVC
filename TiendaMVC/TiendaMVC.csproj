@@ -162,6 +162,7 @@
     <Content Include="Images\actualizar.png" />
     <Content Include="Images\admin.png" />
     <Content Include="Images\asoiado.png" />
+    <Content Include="Images\banner.png" />
     <Content Include="Images\Cargando\carga.gif" />
     <Content Include="Images\Cargando\cargandoHrizontal.gif" />
     <Content Include="Images\Cargando\cargandoHrizontal2.gif" />

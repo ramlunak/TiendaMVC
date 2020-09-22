@@ -42,139 +42,166 @@
 </head>
 <body>
 
-    @using (Html.BeginForm())
+    <div id="divFormLogin" style="padding:15px">
 
-    {
-        @Html.AntiForgeryToken()
+        <form>
+            <div class="container col-10 col-md-8 col-lg-6 text-center">
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="row d-flex justify-content-center m-2"> 
+                    <img src="~/Images/banner.png" width="350" height="200" style="object-fit:contain" class="d-none d-md-block" />
+                    <img src="~/Images/banner.png" width="160" height="100" style="object-fit:contain" class="d-block d-md-none" />
+                </div>
 
-        <!--Modal: Login with Avatar Form-->
-        <div class="modal fade" id="modalLoginAvatar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-             aria-hidden="true">
-            <div class="modal-dialog cascading-modal modal-avatar modal-sm" role="document">
-                <!--Content-->
-                <div class="modal-content">
+                <div class="form-group">
+                    <input type="email" class="form-control small" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                    @*<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>*@
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control small" id="exampleInputPassword1" placeholder="Password">
+                </div>
 
-                    <!--Header-->
-                    <div style="text-align:center;margin:10px">
-                        <img src="~/Images/user.png" alt="avatar" class="rounded-circle img-responsive">
-                    </div>
-                    <!--Body-->
-                    <div class="modal-body text-center mb-1">
-
-                        <div class="md-form">
-                            <input type="text" id="user" name="user" placeholder="Usuario" value="" class="form-control validate">
-                        </div>
-
-                        <div class="md-form" style="margin-top:15px">
-                            <input type="password" id="pass" name="pass" placeholder="Contraseña" value="" class="form-control validate">
-                        </div>
-
-                    </div>
-
-                    <div id="mensaje" class="alert alert-danger" style="display:none"></div>
-
-                    <div class="text-center mt-4" style="margin-bottom:15px">
-                        <button type="submit" class="btn btn-default " style="background-color:green !important;color:white">ENTRAR <i class="fa fa-sign-in ml-1"></i></button>
-                    </div>
-
+                @*<div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    </div>*@
+                <div class="form-group">
+                    <button type="submit" style="margin:0px" class="btn btn-primary form-control">Entrar</button>
                 </div>
 
             </div>
-            <!--/.Content-->
-        </div>
+        </form>
 
-        <!--Modal: Login with Avatar Form-->
-    }
+        @*@using (Html.BeginForm())
 
-    <section class="header12 cid-r8H6N6bzUL mbr-fullscreen mbr-parallax-background" id="header12-d">
+            {
+                @Html.AntiForgeryToken()
 
-        <div class="mbr-overlay" style="opacity: 0.7; background-color: rgb(15, 118, 153);">
-        </div>
-        <div class="container">
-            <div class="media-container">
-                <div class="col-md-12 align-center">
-                    <h1 class="mbr-section-title pb-3 mbr-white mbr-bold mbr-fonts-style display-1"><span style="font-weight: normal;"><em>TELEYUMA TIENDA</em></span></h1>
-                    <p class="mbr-text pb-3 mbr-white mbr-fonts-style display-5">La mejor opción para mantener en línea al mundo</p>
-                    <div class="mbr-section-btn align-center py-2" data-toggle="modal" data-target="#modalLoginAvatar"><a class="btn btn-md btn-secondary display-4">Autenticarse</a></div>
-                    <div class="icons-media-container mbr-white">
-                        <div class="card col-12 col-md-6">
-                            <div class="icon-block">
-                                <span class="mbr-iconfont mbri-mobirise"></span>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                <div class="row align-center justify-content-center">
+
+                    <div col-12 col-md-8 d-flex>
+
+                        <div style="text-align:center;margin:10px">
+                            <img src="~/Images/user.png" alt="avatar" class="rounded-circle img-responsive">
+                        </div>
+
+                        <div class=" mb-1">
+
+                            <div class="form-group">
+                                <input type="text" id="user" name="user" placeholder="Usuario" value="" class="form-control validate">
                             </div>
-                            <h5 class="mbr-fonts-style display-5">Recargas móviles&nbsp;</h5>
-                        </div>
-                        <div class="card col-12 col-md-6">
-                            <div class="icon-block">
-                                <span class="mbr-iconfont mbri-wifi"></span>
-                            </div>
-                            <h5 class="mbr-fonts-style display-5">
-                                Recargas Nautas
-                            </h5>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="mbr-arrow hidden-sm-down" aria-hidden="true">
-            <a href="#next">
-                <i class="mbri-down mbr-iconfont"></i>
-            </a>
-        </div>
-    </section>
-    <section class="engine">how to build a site for free</section><section class="cid-r8H75L3HNr" id="footer1-e">
 
-        <div class="container">
-            <div class="media-container-row content text-white">
-                <div class="col-12 col-md-3">
-                    <div class="media-wrap">
-                        <img src="~/Content/assets/images/connexion-122x122.png" />
+                            <div class="form-group">
+                                <input type="password" id="pass" name="pass" placeholder="Contraseña" value="" class="form-control validate">
+                            </div>
+
+                        </div>
+
+                        <div id="mensaje" class="alert alert-danger" style="display:none"></div>
+
+                        <div class="text-center mt-4" style="margin-bottom:15px">
+                            <button type="submit" class="btn btn-default " style="background-color:green !important;color:white">ENTRAR <i class="fa fa-sign-in ml-1"></i></button>
+                        </div>
+
                     </div>
                 </div>
-                <div class="col-12 col-md-3 mbr-fonts-style display-7">
-                    <h5 class="pb-3">
-                        Address
-                    </h5>
-                    <p class="mbr-text">
-                        1234 Street Name
-                        <br>City, AA 99999
-                    </p>
-                </div>
-                <div class="col-12 col-md-3 mbr-fonts-style display-7">
-                    <h5 class="pb-3">
-                        Contacts
-                    </h5>
-                    <p class="mbr-text">
-                        Email: support@teleyuma.com
-                        <br>Phone: +1 (786)271-9040<br><br>
-                    </p>
-                </div>
-                <div class="col-12 col-md-3 mbr-fonts-style display-7">
-                    <h5 class="pb-3"></h5>
-                    <p class="mbr-text"><br><br><br></p>
+            }*@
+    </div>
+
+
+
+
+
+    <div id="divInicio">
+        <section class="header12 cid-r8H6N6bzUL mbr-fullscreen mbr-parallax-background" id="header12-d">
+
+            <div class="mbr-overlay" style="opacity: 0.7; background-color: rgb(15, 118, 153);">
+            </div>
+            <div class="container">
+                <div class="media-container">
+                    <div class="col-md-12 align-center">
+                        <h1 class="mbr-section-title pb-3 mbr-white mbr-bold mbr-fonts-style display-1"><span style="font-weight: normal;"><em>TELEYUMA TIENDA</em></span></h1>
+                        <p class="mbr-text pb-3 mbr-white mbr-fonts-style display-5">La mejor opción para mantener en línea al mundo</p>
+                        @*<div class="mbr-section-btn align-center py-2" data-toggle="modal" data-target="#modalLoginAvatar"><a class="btn btn-md btn-secondary display-4">Autenticarse</a></div>*@
+                        <div id="btnLogin" class="mbr-section-btn align-center py-2"><a class="btn btn-md btn-secondary display-4">Autenticarse</a></div>
+                        <div class="icons-media-container mbr-white">
+                            <div class="card col-12 col-md-6">
+                                <div class="icon-block">
+                                    <span class="mbr-iconfont mbri-mobirise"></span>
+                                </div>
+                                <h5 class="mbr-fonts-style display-5">Recargas móviles&nbsp;</h5>
+                            </div>
+                            <div class="card col-12 col-md-6">
+                                <div class="icon-block">
+                                    <span class="mbr-iconfont mbri-wifi"></span>
+                                </div>
+                                <h5 class="mbr-fonts-style display-5">
+                                    Recargas Nautas
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="footer-lower">
-                <div class="media-container-row">
-                    <div class="col-sm-12">
-                        <hr>
+            <div class="mbr-arrow hidden-sm-down" aria-hidden="true">
+                <a href="#next">
+                    <i class="mbri-down mbr-iconfont"></i>
+                </a>
+            </div>
+        </section>
+        <section class="engine">how to build a site for free</section><section class="cid-r8H75L3HNr" id="footer1-e">
+
+            <div class="container">
+                <div class="media-container-row content text-white">
+                    <div class="col-12 col-md-3">
+                        <div class="media-wrap">
+                            <img src="~/Content/assets/images/connexion-122x122.png" />
+                        </div>
                     </div>
-                </div>
-                <div class="media-container-row mbr-white">
-                    <div class="col-sm-6 copyright">
-                        <p class="mbr-text mbr-fonts-style display-7">
-                            © Copyright 2018 TeleYuma - All Rights Reserved
+                    <div class="col-12 col-md-3 mbr-fonts-style display-7">
+                        <h5 class="pb-3">
+                            Address
+                        </h5>
+                        <p class="mbr-text">
+                            1234 Street Name
+                            <br>City, AA 99999
                         </p>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-12 col-md-3 mbr-fonts-style display-7">
+                        <h5 class="pb-3">
+                            Contacts
+                        </h5>
+                        <p class="mbr-text">
+                            Email: support@teleyuma.com
+                            <br>Phone: +1 (786)271-9040<br><br>
+                        </p>
+                    </div>
+                    <div class="col-12 col-md-3 mbr-fonts-style display-7">
+                        <h5 class="pb-3"></h5>
+                        <p class="mbr-text"><br><br><br></p>
+                    </div>
+                </div>
+                <div class="footer-lower">
+                    <div class="media-container-row">
+                        <div class="col-sm-12">
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="media-container-row mbr-white">
+                        <div class="col-sm-6 copyright">
+                            <p class="mbr-text mbr-fonts-style display-7">
+                                © Copyright 2018 TeleYuma - All Rights Reserved
+                            </p>
+                        </div>
+                        <div class="col-md-6">
 
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
+        </section>
+    </div>
     <script src="~/Content/assets/web/assets/jquery/jquery.min.js"></script>
     <script src="~/Content/assets/popper/popper.min.js"></script>
     <script src="~/Content/assets/tether/tether.min.js"></script>
@@ -214,3 +241,17 @@
     }
 
 }
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#divInicio').show();
+        $('#divFormLogin').hide();
+
+        $("#btnLogin").on('click', function () {
+            $('#divInicio').hide();
+            $('#divFormLogin').show();
+        })
+    });
+</script>
+
