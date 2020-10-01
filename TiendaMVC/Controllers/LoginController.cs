@@ -22,7 +22,7 @@ namespace TiendaMVC.Controllers
         [HttpPost]
         public async Task<ActionResult> Index(Login login)
         {
-        
+
             Session["CurrentCustomer"] = null;
             Session["CurrentAccont"] = null;
             Session["TipoTienda"] = TipoTienda.Padre;
@@ -39,7 +39,7 @@ namespace TiendaMVC.Controllers
 
                     login.error = true;
                     login.errorMensaje = "Contraseña incorrecta";
-                    return View(login);
+                    return Json(login);
 
                 }
                 else
@@ -47,7 +47,7 @@ namespace TiendaMVC.Controllers
                 {
                     login.error = true;
                     login.errorMensaje = "Usuario bloqueado, contacte a Support";
-                    return View(login);
+                    return Json(login);
 
                 }
                 else
@@ -55,7 +55,7 @@ namespace TiendaMVC.Controllers
                 {
                     login.error = true;
                     login.errorMensaje = "Usuario bloqueado, contacte a Support";
-                    return View(login);
+                    return Json(login);
 
                 }
                 else
@@ -77,15 +77,16 @@ namespace TiendaMVC.Controllers
                     }
 
                     await FONDOS();
-
-                    return RedirectToAction("Create", "RecargaTiendas");
+                   
+                    login.error = false;
+                    return Json(login);
 
                 }
                 else
                 {
                     login.error = true;
                     login.errorMensaje = "Usuario sin permisos, contacte a Support";
-                    return View(login);
+                    return Json(login);
 
                 }
             }
@@ -93,7 +94,7 @@ namespace TiendaMVC.Controllers
             {
                 login.error = true;
                 login.errorMensaje = "El Usuario no existe, contacte a Support";
-                return View(login);
+                return Json(login);
             }
             //else
             //{

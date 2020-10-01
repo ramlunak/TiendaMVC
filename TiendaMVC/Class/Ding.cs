@@ -59,7 +59,7 @@ namespace TiendaMVC.Class
                 client.DefaultRequestHeaders.Add("api_key", api_key);
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
+                client.Timeout = TimeSpan.FromSeconds(100);
                 try
                 {
                     var url2 = "https://api.dingconnect.com/api/V1/SendTransfer";
