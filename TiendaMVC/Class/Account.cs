@@ -141,8 +141,8 @@ namespace TiendaMVC.Class
         [DataMember]
         [Required(ErrorMessage = "Este campo es obligatorio")]
         [DataType(DataType.Password)]
-        [StringLength(16, MinimumLength = 6, ErrorMessage = "La contraseña debe tener mas de 5 caracteres y menos de 17")]
-        [RegularExpression(@"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,22}$", ErrorMessage = "La contraseña debe contener dígitos, al menos una letra miniscula y una mayuscula y un caracter especial(Ejemplo:Fulano2* , w201821A*)")]
+        [StringLength(16, MinimumLength = 8, ErrorMessage = "La contraseña debe tener mas de 7 caracteres y menos de 17")]
+        [RegularExpression(@"^(?=(.*[a-zA-Z].*){2,})(?=.*\d.*)(?=.*\W.*)[a-zA-Z0-9\S]{8,17}$", ErrorMessage = "La contraseña debe contener dígitos, al menos una letra miniscula y una mayuscula y un caracter especial(Ejemplo:Fulano2* , w201821A*)")]
         public string password { get; set; }
 
         [DataMember]

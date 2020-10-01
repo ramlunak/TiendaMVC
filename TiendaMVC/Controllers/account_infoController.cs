@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -316,7 +317,17 @@ namespace TiendaMVC.Controllers
 
         public async Task<ErrorHandling> SetAccount(customer_info account)
         {
-           
+            Regex regex = new Regex(@"^(?=(.*[a-zA-Z].*){2,})(?=.*\d.*)(?=.*\W.*)[a-zA-Z0-9\S]{8,17}$");
+            Match match = regex.Match(account.password);
+            if (!match.Success)
+            {
+                return new ErrorHandling
+                {
+                    faul = true,
+                    faultstring = "La contraseña debe contener dígitos, al menos una letra miniscula y una mayuscula y un caracter especial"
+                };
+            }
+
             try
             {
                 var now = DateTime.Now;
@@ -363,7 +374,6 @@ namespace TiendaMVC.Controllers
             var valid = await account.Validar();
             if (!valid.faul)
             {
-
                 var result = await account.Crear();
                 return result;
             }
